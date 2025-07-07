@@ -1,0 +1,93 @@
+{
+  "info": {
+    "_postman_id": "7a5dd582-207f-4d10-9c3a-81e9a2c13abc",
+    "name": "Evaluador Crediticio API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1 - Verificar Cliente",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"dni\": \"12345678\"\n}"
+        },
+        "url": { "raw": "http://localhost:8000/cliente/verificar", "host": ["localhost"], "port": "8000", "path": ["cliente", "verificar"] }
+      }
+    },
+    {
+      "name": "2 - Registrar Cliente",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"dni\": \"12345678\",\n  \"nombre\": \"Ana\",\n  \"telefono\": \"999999999\",\n  \"email\": \"ana@example.com\"\n}"
+        },
+        "url": { "raw": "http://localhost:8000/cliente/registrar", "host": ["localhost"], "port": "8000", "path": ["cliente", "registrar"] }
+      }
+    },
+    {
+      "name": "3 - Enviar OTP",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"dni\": \"12345678\"\n}"
+        },
+        "url": { "raw": "http://localhost:8000/cliente/otp/enviar", "host": ["localhost"], "port": "8000", "path": ["cliente", "otp", "enviar"] }
+      }
+    },
+    {
+      "name": "4 - Validar OTP",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"dni\": \"12345678\",\n  \"otp\": \"123456\"\n}"
+        },
+        "url": { "raw": "http://localhost:8000/cliente/otp/validar", "host": ["localhost"], "port": "8000", "path": ["cliente", "otp", "validar"] }
+      }
+    },
+    {
+      "name": "5 - Registro de Solicitud Resumida",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"dni\": \"12345678\",\n  \"monto\": 1500\n}"
+        },
+        "url": { "raw": "http://localhost:8000/solicitud/resumen", "host": ["localhost"], "port": "8000", "path": ["solicitud", "resumen"] }
+      }
+    },
+    {
+      "name": "6 - Completar Datos de Solicitud",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"dni\": \"12345678\",\n  \"ingresos\": 3000,\n  \"egresos\": 1000,\n  \"dependientes\": 1\n}"
+        },
+        "url": { "raw": "http://localhost:8000/solicitud/detalle", "host": ["localhost"], "port": "8000", "path": ["solicitud", "detalle"] }
+      }
+    },
+    {
+      "name": "7 - Evaluar Solicitud",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"ingresos\": 3000,\n  \"egresos\": 1000,\n  \"dependientes\": 1,\n  \"monto\": 1500,\n  \"plazo_meses\": 12,\n  \"tasa_interes\": 0.2,\n  \"fecha_inicio\": \"2025-07-03\"\n}"
+        },
+        "url": { "raw": "http://localhost:8000/evaluar", "host": ["localhost"], "port": "8000", "path": ["evaluar"] }
+      }
+    }
+  ]
+}

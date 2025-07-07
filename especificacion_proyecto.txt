@@ -1,0 +1,87 @@
+===========================
+SISTEMA DE EVALUACIÓN CREDITICIA DIGITAL
+===========================
+
+🧩 SITUACIÓN DEL PROYECTO
+
+Una entidad financiera opera bajo un modelo presencial que limita la atención y expansión. 
+Los clientes deben acudir físicamente a una agencia, lo que resulta ineficiente, costoso 
+y poco competitivo frente a fintechs. 
+
+La solución propuesta es un sistema de evaluación crediticia 100% digital, que permita registrar 
+solicitudes, evaluar riesgos automáticamente y aprobar créditos sin necesidad de presencia física.
+
+El sistema debe funcionar sin base de datos persistente, y cada paso del proceso debe ser un 
+endpoint REST independiente, fácilmente verificable desde herramientas como Postman.
+
+---------------------------
+
+🏗️ ESTRUCTURA DEL PROYECTO (evaluador_crediticio/)
+───────────────────────────────────────────────────
+
+evaluador_crediticio/
+├── app/                          # Código principal
+│   ├── main.py                   # Arranque de la aplicación FastAPI
+│   ├── api/                      # Rutas (endpoints) organizadas por módulos
+│   │   ├── __init__.py
+│   │   ├── cliente.py            # Registro, verificación y OTP
+│   │   ├── solicitud.py          # Solicitudes: resumida y detallada
+│   │   ├── evaluacion.py         # Cálculo del scoring y decisión
+│   │   ├── contrato.py           # Simulación de firma
+│   │   └── desembolso.py         # Simulación de transferencia
+│   ├── core/                     # Lógica de negocio
+│   │   ├── scoring.py            # Algoritmo de scoring
+│   │   ├── decision.py           # Matriz de decisión
+│   │   └── otp.py (opcional)     # Simulación de OTP
+│   ├── models/                   # Esquemas Pydantic (entradas/salidas)
+│   │   └── schemas.py
+├── especificacion_proyecto.txt  # Documento con la descripción y flujo del sistema
+├── requirements.txt             # Librerías necesarias para el entorno virtual
+├── Dockerfile                   # Instrucciones para crear la imagen Docker
+├── docker-compose.yml           # Servicio Docker listo para levantar la API
+├── .dockerignore                # Archivos que no deben incluirse en la imagen
+├── .venv/                       # Entorno virtual de Python (no se sube a GitHub)
+└── .git/ (si ya lo versionas)   # Carpeta del repositorio Git (no editable)
+
+---------------------------
+
+🔁 FLUJO DEL SISTEMA (PASO A PASO)
+───────────────────────────────────
+
+1. Registro Resumido de Solicitud
+   - Endpoint: POST /solicitud/resumen
+   - Acción: El cliente ingresa DNI y monto a solicitar.
+   - Resultado: Se verifica si es cliente existente.
+
+2. Verificación de Cliente
+   - Endpoint: POST /cliente/verificar
+   - Acción: Verifica si el DNI ya está registrado (simulado).
+   - Resultado: Si no existe, se registra.
+
+3. Registro de Cliente Nuevo
+   - Endpoint: POST /cliente/registrar
+   - Acción: Ingreso de nombre, email, celular, etc.
+
+4. Envío y Confirmación de OTP
+   - Endpoint: POST /cliente/otp/enviar
+   - Endpoint: POST /cliente/otp/validar
+   - Acción: Envío y validación del código de seguridad.
+
+5. Envío de Datos Detallados de Solicitud
+   - Endpoint: POST /solicitud/detalle
+   - Acción: Se solicitan ingresos, egresos, dependientes, etc.
+
+6. Evaluación Automatizada
+   - Endpoint: POST /evaluar
+   - Acción: El sistema calcula la capacidad de pago y el scoring, 
+     y toma una decisión basada en reglas predefinidas.
+
+7. Firma de Contrato
+   - Endpoint: POST /contrato
+   - Acción: Se genera un contrato y el usuario lo acepta vía OTP.
+
+8. Desembolso Bancario
+   - Endpoint: POST /desembolso
+   - Acción: Se valida la cuenta del cliente y se simula el envío del dinero.
+
+---------------------------
