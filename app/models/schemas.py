@@ -32,5 +32,7 @@ class VerificarClienteRequest(BaseModel):
 # class FirmaContratoRequest(BaseModel):
 #     acepta: bool
 
-# class DesembolsoRequest(BaseModel):
-#     cuenta_bancaria: str
+class DesembolsoRequest(BaseModel):
+    cuenta_bancaria: str
+    dni: str
+    monto: float

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, FastAPI, Request
 from app.models.schemas import RegistroClienteRequest, OTPRequest, VerificarClienteRequest
 
 '''
@@ -11,10 +11,6 @@ Este modulo gestiona:
 
 router = APIRouter()
 
-clientes_array = [
-    {"dni": "00000000", "nombre": "Juan Simulado", "telefono": "", "email": ""}
-]
-
 cola_otp = [] 
 
 
@@ -25,11 +21,12 @@ clientes_simulados = {
 }"""
 
 @router.post("/verificar")
-def verificar_cliente(request: VerificarClienteRequest):
+def verificar_cliente(request: VerificarClienteRequest, r: Request):
     
     stack_auxiliar = []
     encontrado = False
-    
+    clientes_array = r.app.state.clientes_array
+
     while clientes_array:
         cliente = clientes_array.pop(0) 
         stack_auxiliar.append(cliente)    
@@ -47,7 +44,9 @@ def verificar_cliente(request: VerificarClienteRequest):
     return {"cliente_existente": False}
     """
 @router.post("/registrar")
-def registrar_cliente(data: RegistroClienteRequest):
+def registrar_cliente(data: RegistroClienteRequest, r: Request):
+
+    clientes_array = r.app.state.clientes_array
   
     for c in clientes_array:
         if c["dni"] == data.dni:
@@ -94,3 +93,9 @@ def validar_otp(data: OTPRequest):
     """if data.otp == "123456":
         return {"mensaje": "OTP validado correctamente"}"""
     raise HTTPException(status_code=400, detail="OTP incorrecto")
+
+
+@router.get("/listar")
+def listarClientes(r: Request):
+    
+    return r.app.state.clientes_array

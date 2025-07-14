@@ -7,6 +7,10 @@ app = FastAPI(
     version="0.0.1"
     )
 
+
+app.state.clientes_array = [
+    {"dni": "00000000", "nombre": "Juan Simulado", "telefono": "", "email": ""}
+]
 # Incluimos todas las rutas
 app.include_router(api_router)
 
