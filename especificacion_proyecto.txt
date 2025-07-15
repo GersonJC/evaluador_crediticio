@@ -24,24 +24,22 @@ evaluador_crediticio/
 │   ├── main.py                   # Arranque de la aplicación FastAPI
 │   ├── api/                      # Rutas (endpoints) organizadas por módulos
 │   │   ├── __init__.py
-│   │   ├── cliente.py            # Registro, verificación y OTP
-│   │   ├── solicitud.py          # Solicitudes: resumida y detallada
+│   │   ├── cliente.py            # Registro, verificación 
+│   │   ├── solicitud.py          # Solicitudes
 │   │   ├── evaluacion.py         # Cálculo del scoring y decisión
-│   │   ├── contrato.py           # Simulación de firma
 │   │   └── desembolso.py         # Simulación de transferencia
 │   ├── core/                     # Lógica de negocio
 │   │   ├── scoring.py            # Algoritmo de scoring
 │   │   ├── decision.py           # Matriz de decisión
-│   │   └── otp.py (opcional)     # Simulación de OTP
-│   ├── models/                   # Esquemas Pydantic (entradas/salidas)
-│   │   └── schemas.py
+│   └── models/                   
+│       ├── schemas.py            # Esquemas Pydantic (entradas/salidas)
+|       ├── modelo_scoring.py     # Modelo de entrenamiento de scoring
+|       ├── estructuras.py        # Estructura de ordenamiento y busqueda
+|       └── database.py           # Listas para cada modulo emulando una BD
 ├── especificacion_proyecto.txt  # Documento con la descripción y flujo del sistema
 ├── requirements.txt             # Librerías necesarias para el entorno virtual
-├── Dockerfile                   # Instrucciones para crear la imagen Docker
-├── docker-compose.yml           # Servicio Docker listo para levantar la API
-├── .dockerignore                # Archivos que no deben incluirse en la imagen
 ├── .venv/                       # Entorno virtual de Python (no se sube a GitHub)
-└── .git/ (si ya lo versionas)   # Carpeta del repositorio Git (no editable)
+└── .git/                        # Carpeta del repositorio Git (no editable)
 
 ---------------------------
 

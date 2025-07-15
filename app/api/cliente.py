@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
-from app.models.schemas import RegistroClienteRequest, OTPRequest, VerificarClienteRequest
-
+from app.models.schemas import Cliente, OTPRequest, VerificarClienteRequest
+from app.models.database import clientes_db
+from typing import List
 '''
 Este modulo gestiona:
 - Verificacion si el cliente ya se encuentra registrado
@@ -11,19 +12,22 @@ Este modulo gestiona:
 
 router = APIRouter()
 
-# Simulación de base de datos en memoria
-clientes_simulados = {
-    "00000000": {"nombre": "Juan Simulado"}
-}
+# # Simulación de base de datos en memoria
+# clientes_simulados = {
+#     "00000000": {"nombre": "Juan Simulado"}
+# }
 
 @router.post("/verificar")
 def verificar_cliente(request: VerificarClienteRequest):
-    if request.dni == clientes_simulados:
-        return {"cliente_existente": True}
+    if any(c["dni"] == request.dni for c in clientes_db):
+        raise HTTPException(status_code=400, detail="Cliente ya registrado")
     return {"cliente_existente": False}
 
 @router.post("/registrar")
-def registrar_cliente(data: RegistroClienteRequest):
+def registrar_cliente(data: Cliente):
+    if any(c["dni"] == data.dni for c in clientes_db):
+        raise HTTPException(status_code=400, detail="Cliente ya registrado")
+    clientes_db.append(data.dict())
     return {"mensaje": "Cliente registrado correctamente", "cliente": data}
 
 @router.post("/otp/enviar")
@@ -35,3 +39,7 @@ def validar_otp(data: OTPRequest):
     if data.otp == "123456":
         return {"mensaje": "OTP validado correctamente"}
     raise HTTPException(status_code=400, detail="OTP incorrecto")
+
+@router.get("/listar", response_model=List[Cliente])
+def listar_clientes():
+    return clientes_db
