@@ -29,7 +29,7 @@ def verificar_cliente(request: VerificarClienteRequest):
     if any(c["dni"] == request.dni for c in clientes_db):
         raise HTTPException(status_code=400, detail="Cliente ya registrado")
     return {"cliente_existente": False}
-    """
+
 @router.post("/registrar")
 def registrar_cliente(data: Cliente):
     if any(c["dni"] == data.dni for c in clientes_db):
